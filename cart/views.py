@@ -8,7 +8,7 @@ from eshop.views import index
 from .cart import Cart
 
 
-def cart_detail(request, pData={}, error=None):
+def cart_detail(request, pData=None, error=None):
     cart = Cart(request)
     col = []
     sum = 0
