@@ -1,0 +1,39 @@
+{% extends 'eshop/base.html' %}
+{% block content %}
+ {% if error %}
+    <p style="color: red">{{error}}!</p>
+    {% endif %}
+{% for product in products %}
+<table border="1">
+
+   <h1>{{ product.title }}</h1>
+
+    <tr style="color: white;">
+    <td style="background: #000000; padding: 5px; height: 25px;">Описание</td>
+       <td style="background: #000000; padding: 5px; height: 25px;">Цена</td>
+    <td style="background: #000000; padding: 5px; height: 25px;">В наличии</td>
+       <td style="background: #000000; padding: 5px; height: 25px;"></td>
+  </tr>
+    {% if product.in_stock %}
+   <tr>
+    <td>{{ product.description }}</td>
+       <td>{{ product.cost }}</td>
+    <td>{{ product.in_stock }}</td>
+       <td style="background: maroon; color: white;">
+           <form action="{% url 'cart_add' product.id %}" method="post">
+                {% csrf_token %}
+               Количество - <input type="number" name="quantity" min="1" max={{product.in_stock}} /><br/>
+                <input type="submit" value="Добавить в корзину">
+           </form></td>
+  </tr>
+    {% else %}
+       <tr>
+    <td>OUT</td>
+       <td>OF</td>
+    <td>STOCK</td>
+       <td></td>
+  </tr>
+    {% endif %}
+ </table>
+{% endfor %}
+{% endblock %}

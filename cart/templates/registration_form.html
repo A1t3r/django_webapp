@@ -1,0 +1,14 @@
+{% extends 'eshop/base.html' %}
+{% block content %}
+
+<form action="{% url 'confirm_payment' %}" method="post">
+                {% csrf_token %}
+                Имя - <input type="text" name="name"/><br/>
+                Фамилия - <input type="text" name="surname"/><br/>
+                Адресс - <input type="text" name="address"/><br/>
+                Номер - <input type="number" name="number"/><br/>
+                Код - <input type="number" name="code"/><br/>
+                <input type="submit" value="Подтвердить">
+           </form>
+
+{% endblock %}

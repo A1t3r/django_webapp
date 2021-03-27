@@ -1,0 +1,57 @@
+{% extends 'eshop/base.html' %}
+{% block style %}
+  <style>
+     table {
+    width: 100%; /* Ширина таблицы */
+    background: white; /* Цвет фона таблицы */
+
+    border-spacing: 1px; /* Расстояние между ячейками */
+   }
+   td{
+    padding: 5px; /* Поля вокруг текста */
+    height: 75px;
+    font-size: 15pt;
+   }
+  </style>
+{% endblock %}
+{% block content %}
+ {% if error %}
+    <p style="color: red">{{error}}!</p>
+    {% endif %}
+<table border="1">
+      <tr style="background: #00BFff;">
+    <td>Название товара</td>
+       <td>Количество</td>
+       <td>Действие</td>
+  </tr>
+{% for product in cart %}
+    {% if product.2 %}
+   <tr>
+    <td>{{ product.1 }}</td>
+       <td>{{ product.2 }}</td>
+       <td><form action="{% url 'cart_remove' product.0 %}" method="post">
+                {% csrf_token %}
+                 Количество - <input type="number" name="quantity" min="1" max={{ product.2 }} /><br/>
+                <input type="submit" value="Удалить из корзины">
+           </form></td>
+  </tr>
+     {% endif %}
+{% endfor %}
+     <tr>
+         <td>Общая сумма покупок -></td>
+       <td> {{ sum }} </td>
+       <td style="color: maroon"><form action="{% url 'proceed_payment'%}" method="post">
+                {% csrf_token %}
+          {% if cart %}
+           <input type="submit" value="Оформить заказ">
+           {% endif %}
+           </form></td>
+         </tr>
+
+ </table>
+
+{% if pData %}
+<p style="color: green">{{ pData.name }} {{ pData.surname}}, заказ на адрес {{ pData.address }} выполнен успешно!</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The best online shop</title>
+    {% block style %}
+      <style>
+     table {
+    width: 100%; /* Ширина таблицы */
+    background: white; /* Цвет фона таблицы */
+    border-spacing: 1px; /* Расстояние между ячейками */
+   }
+   td{
+    background: #00BFff; /* Цвет фона ячеек */
+    padding: 5px; /* Поля вокруг текста */
+    height: 75px;
+    font-size: 15pt;
+   }
+  </style>
+    {% endblock %}
+</head>
+<body>
+<table border="1">
+    <tr style="color: white; alink: white; vlink: white">
+    <td style="background: #000000; padding: 5px; height: 25px;">
+            <a style="color: white; alink: white; vlink: white" href="{% url 'index' %}">SHOP</a></td>
+        <td style="background: #000000; padding: 5px; height: 25px;">
+            <a style="color: white; alink: white; vlink: white" href="{% url 'about' %}">about us/contacts/FAQ</a></td>
+       <td style="background: #000000; padding: 5px; height: 25px;">
+           <a style="color: white; alink: white; vlink: white" href="{% url 'cart_detail' %}">Корзина</a></td>
+        {% if c and q %}
+        <td style="background: #000000; padding: 5px; height: 25px;">
+           <a style="color: white; alink: white; vlink: white" href="{% url 'cart_detail' %}">
+               Всего предметов в корзине - {{ q }} || На общую сумму - {{ c }}</a></td>
+        {% endif %}
+  </tr>
+ </table>
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
