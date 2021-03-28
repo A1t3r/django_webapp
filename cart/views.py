@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 from django.views.decorators.http import require_POST
-from eshop.models import product
+from eshop.models import product, personal_info, order
 from eshop.views import index
 from .cart import Cart
 
@@ -55,20 +55,21 @@ def cart_remove(request, product_id):
 
 
 def confirm_payment(request):
+    pData = {'name': request.POST['name'], 'surname': request.POST['surname'], 'address': request.POST['address']}
+    info = personal_info.objects.create(name=pData['name'], surname=pData['surname'], address=pData['address'],
+                                        number=request.POST['number'])
     cart = Cart(request)
     for item in cart.storage.items():
         prod = get_object_or_404(product, id=item[0])
+        order.objects.create(product=prod, quantity=cart.storage[prod.id], personal_info=info)
         prod.in_stock -= item[1]
         prod.save()
     cart.erase_cart()
-    pData={}
-    pData['name'] = request.POST['name']
-    pData['surname'] = request.POST['surname']
-    pData['address'] = request.POST['address']
+
     return cart_detail(request, pData=pData)
 
 
 def proceed_payment(request):
     template = loader.get_template('registration_form.html')
     return HttpResponse(template.render({}, request))
-   # return confirm_payment(request)
+# return confirm_payment(request)
