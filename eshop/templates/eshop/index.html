@@ -6,7 +6,9 @@
 {% for product in products %}
 <table border="1">
 
-   <h1>{{ product.title }}</h1>
+   <h1><a style="color: black; alink: black; vlink: black" href="product/{{product.id}}/">
+       {{ product.title }}
+   </a></h1>
 
     <tr style="color: white;">
     <td style="background: #000000; padding: 5px; height: 25px;">Описание</td>

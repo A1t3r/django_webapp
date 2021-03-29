@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
-from django.views.decorators.http import require_POST
 from eshop.models import product
 from cart.cart import Cart
 
@@ -24,13 +23,10 @@ def about(request):
     return HttpResponse(template.render({}, request))
 
 
-def get_product(request, product_id):
+def product_details(request, product_id):
     prodc = product.objects.get(id=product_id)
-    template = loader.get_template('product.html')
+    template = loader.get_template('eshop/product.html')
     context = {
-        'title': prodc.title,
-        'description': prodc.description,
-        'cost': prodc.cost,
-        'in_stock': prodc.in_stock
+        'product': prodc,
     }
     return HttpResponse(template.render(context, request))

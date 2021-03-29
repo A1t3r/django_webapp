@@ -32,7 +32,8 @@ def cart_add(request, product_id):
             cart.add_to_cart(prod=prod)
         except ValidationError:
             return index(request=request, error="Invalid value")
-    return index(request)
+    return redirect('index')
+   # return index(request)
 
 
 #  return redirect('cart:cart_detail')
@@ -51,7 +52,7 @@ def cart_remove(request, product_id):
             cart.del_from_cart(prod=prod)
         except ValidationError:
             return cart_detail(request=request, error="Invalid value")
-    return cart_detail(request)
+    return redirect("cart_detail")
 
 
 def confirm_payment(request):
